@@ -1,6 +1,6 @@
 package com.interview.solution;
 
-import java.util.Stack;
+import java.util.*;
 
 public class Solution {
 
@@ -183,5 +183,45 @@ public class Solution {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 判断单词个数
+     *
+     * @param words 由空格分割的单词
+     * @return
+     */
+    public void statisticsWordCount(String words) {
+        // 1、分割字符串
+        String[] sa = words.split(" ");
+
+//        2、统计单词个数并放入map
+        HashMap hm = new HashMap<String, Integer>();
+        for(int i = 0;i < sa.length;i++){
+            Integer v = (Integer)hm.get(sa[i]);
+            if (v == null){
+                hm.put(sa[i], 1);
+            }else{
+                hm.put(sa[i], v.intValue()+1);
+            }
+
+        }
+
+//        3、按顺序输出单词
+        List<Map.Entry<String, Integer>> hmList =
+                new ArrayList<Map.Entry<String, Integer>>(hm.entrySet());
+        Collections.sort(hmList, new Comparator<Map.Entry<String, Integer>>() {
+            public int compare(Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2) {
+                int vdiff = o2.getValue() - o1.getValue();
+                if(vdiff == 0){
+                    return (o1.getKey()).compareTo(o2.getKey());
+                }
+                return vdiff;
+            }
+        });
+
+        for(Map.Entry<String,Integer> mapping:hmList){
+            System.out.println(mapping.getKey()+":"+mapping.getValue());
+        }
     }
 }
